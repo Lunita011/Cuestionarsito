@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Blogsito y Cuestionario 🌙</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; color: #1c1e21; padding: 20px; line-height: 1.6; }
+        .container { max-width: 700px; margin: auto; }
+        
+        /* Estilos comunes para las "tarjetas" */
+        section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        
+        h1, h2 { color: #ec4899; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        /* Botones con diferentes colores para no confundirlos */
+        button { border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; color: white; transition: 0.3s; }
+        .btn-blog { background: #ec4899; } /* Rosa */
+        .btn-quiz { background: #2ea44f; } /* Verde */
+        .btn-descarga { background: #0969da; display: none; margin-top: 10px; width: 100%; } /* Azul */
+        
+        button:hover { opacity: 0.8; }
+        .resultado { margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <section id="blog">
+        <h1>Bienvenido a mi Blogsito 🚀</h1>
+        <p>Holiiii, soy Lunita! Estoy cumpliendo una tareita que me dejó mi hermano y al mismo tiempo aprendiendo HTML.</p>
+        <p style="color:  #8b5cf6;">ojitooooo: usé IA para guiarme paso a paso en la creación de esta linda tareita, gracias por comprender 💕🥹</p>
+        <hr>
+        <h3>Deja un comentario para mi tarea pleasee:</h3>
+        <input type="text" id="nombre" placeholder="Tu lindo nombre">
+        <textarea id="mensajito" placeholder="Escribe algo aquí..." rows="3"></textarea>
+        <button class="btn-blog" onclick="procesarBlog()">Enviar Comentario</button>
+    </section>
+
+    <section id="quiz">
+        <h2>Cuestionario de Práctica 📝</h2>
+        <div class="pregunta">
+            <p>1. ¿Qué extensión debe tener este archivo para que funcione?🤔</p>
+            <input type="radio" name="q1" value="1"> .html <br>
+            <input type="radio" name="q1" value="0"> .txt
+        </div>
+        <div class="pregunta">
+            <p>2. ¿Cuál es el lenguaje para los colores y el diseño?🙈</p>
+            <input type="radio" name="q2" value="1"> CSS <br>
+            <input type="radio" name="q2" value="0"> Python
+        </div>
+        <br>
+        <button class="btn-quiz" onclick="procesarQuiz()">Finalizar Quiz</button>
+    </section>
+
+    <section id="resultados-seccion">
+        <div id="resultado-texto" class="resultado"></div>
+        <button id="btn-descargar" class="btn-descarga" onclick="descargarTxt()">
+            📥 Descargar Resultados (.txt)
+        </button>
+    </section>
+
+</div>
+
+<script>
+    let contenidoFinal = "";
+
+    // Función para el Blog
+    function procesarBlog() {
+        const nom = document.getElementById('nombre').value;
+        const msg = document.getElementById('mensaje').value;
+        if(!nom || !msg) return alert("Epaleee llena todos los campos del blog");
+
+        contenidoFinal += `--- COMENTARIO BLOG ---\nNombre: ${nom}\nMsg: ${msg}\n\n`;
+        document.getElementById('resultado-texto').innerText = "¡Graciaas, ya guardé tu Comentario! Ahora haz el quiz.";
+    }
+
+    // Función para el Quiz
+    function procesarQuiz() {
+        let pts = 0;
+        const r1 = document.querySelector('input[name="q1"]:checked');
+        const r2 = document.querySelector('input[name="q2"]:checked');
+
+        if(!r1 || !r2) return alert("Epaleeeee, responde todas las preguntas del quiz please");
+
+        pts = parseInt(r1.value) + parseInt(r2.value);
+        contenidoFinal += `--- RESULTADOS QUIZ ---\nPuntos: ${pts} de 2\nFecha: ${new Date().toLocaleString()}`;
+        
+        document.getElementById('resultado-texto').innerText = `¡Ergaa! Sacaste ${pts} puntos. Descarga tu reportico.`;
+        document.getElementById('btn-descargar').style.display = "block";
+    }
+
+    // Función de Descarga (Blob)
+    function descargarTxt() {
+        const blob = new Blob([contenidoFinal], { type: "text/plain" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "tarea_hermano.txt";
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+</script>
+
+</body>
+</html>
+
+
